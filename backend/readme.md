@@ -1,0 +1,6 @@
+## TO RUN THE SERVER
+
+```bash
+pip install flask==2.3.3 flask-cors==4.0.0 numpy==1.24.3 pandas==1.5.3 xgboost==1.7.6 scikit-learn==1.3.0
+python xgboost_risk_server.py
+```

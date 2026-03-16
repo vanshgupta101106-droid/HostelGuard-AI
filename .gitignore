@@ -1,0 +1,124 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python virtual environments
+venv/
+ENV/
+env/
+.venv
+env.bak/
+venv.bak/
+
+# Django / Flask
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+
+# Node.js / npm / pnpm / yarn
+node_modules/
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+pnpm-lock.yaml.bak
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# Misc
+*.bak
+*.tmp
+.cache/
+.temp/
+
+# Testing and Coverage
+coverage/
+.coverage
+.pytest_cache/
+cypress/videos/
+cypress/screenshots/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+.jupyter
+
+# Type checking
+*.tsbuildinfo
+
+# Build outputs
+*.whl
+dist/
+
+# MacOS
+.DS_Store
+
+# Windows
+thumbs.db
+
+# Project specific
+backend_new/__pycache__/
+backend/__pycache__/
+hostel-risk-system/.next/
+hostel-risk-system/node_modules/
+evaluation_results/
+*.csv
+!student_features_with_labels.csv
+!test_student_data.csv

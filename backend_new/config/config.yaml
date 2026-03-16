@@ -1,0 +1,100 @@
+model:
+  type: "xgboost"
+  target_column: "risk_level"
+  random_state: 42
+  test_size: 0.2
+  validation_size: 0.2
+  
+features:
+  required_features:
+    - year
+    - days_in_hostel
+    - past_escalation_count
+    - behavior_count_7d
+    - behavior_count_30d
+    - severe_behavior_count_30d
+    - behavior_weighted_score_30d
+    - days_since_last_behavior
+    - incident_count_30d
+    - severe_incident_count_30d
+    - incident_trend_slope
+    - complaint_count_30d
+    - high_severity_complaint_count_30d
+    - complaint_growth_rate
+    - avg_stress_4weeks
+    - stress_trend_slope
+    - mood_instability_score
+    - missed_survey_count
+    - block_risk_score
+    - floor_risk_score
+    - room_risk_score
+    - roommate_avg_risk_score
+  
+  categorical_features:
+    - year
+  
+  numerical_features:
+    - days_in_hostel
+    - past_escalation_count
+    - behavior_count_7d
+    - behavior_count_30d
+    - severe_behavior_count_30d
+    - behavior_weighted_score_30d
+    - days_since_last_behavior
+    - incident_count_30d
+    - severe_incident_count_30d
+    - incident_trend_slope
+    - complaint_count_30d
+    - high_severity_complaint_count_30d
+    - complaint_growth_rate
+    - avg_stress_4weeks
+    - stress_trend_slope
+    - mood_instability_score
+    - missed_survey_count
+    - block_risk_score
+    - floor_risk_score
+    - room_risk_score
+    - roommate_avg_risk_score
+
+xgboost_params:
+  n_estimators: 200
+  max_depth: 6
+  learning_rate: 0.1
+  subsample: 0.8
+  colsample_bytree: 0.8
+  random_state: 42
+  eval_metric: 'mlogloss'
+  objective: 'multi:softprob'
+  num_class: 3
+  
+training:
+  cross_validation_folds: 5
+  early_stopping_rounds: 20
+  hyperparameter_tuning: true
+  n_trials: 100
+  
+evaluation:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - roc_auc
+    - confusion_matrix
+    - classification_report
+  
+paths:
+  data_dir: "data"
+  models_dir: "models"
+  raw_data: "data/raw_data.csv"
+  processed_data: "data/processed_data.csv"
+  train_data: "data/train.csv"
+  test_data: "data/test.csv"
+  model_file: "models/xgboost_risk_model.pkl"
+  scaler_file: "models/scaler.pkl"
+  feature_importance: "models/feature_importance.json"
+  
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/training.log"
