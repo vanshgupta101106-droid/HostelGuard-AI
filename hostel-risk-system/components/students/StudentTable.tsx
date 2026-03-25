@@ -1,10 +1,13 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { Database } from "@/lib/supabase/database"
 import Table from "@/components/ui/Table"
 import StudentFilters from "./StudentFilters"
 import StudentRiskDetailsModal from "./StudentRiskDetailsModal"
+import NotifyModal from "./NotifyModal"
+import Button from "@/components/ui/Button"
 import { StudentFilters as StudentFiltersType } from "@/lib/services/student.service"
 
 type StudentRow = Database['public']['Tables']['student']['Row'] & {
@@ -31,9 +34,10 @@ interface StudentTableProps {
 }
 
 export default function StudentTable({ initialStudents = [] }: StudentTableProps) {
+  const router = useRouter()
   const [filters, setFilters] = useState<StudentFiltersType>({})
-  const [selectedStudent, setSelectedStudent] = useState<StudentRow | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false)
+  const [studentToNotify, setStudentToNotify] = useState<StudentRow | null>(null)
 
   // Use useMemo to prevent infinite re-renders
   const filteredStudents = useMemo(() => {
@@ -92,6 +96,7 @@ export default function StudentTable({ initialStudents = [] }: StudentTableProps
     { key: 'year', label: 'Year' },
     { key: 'risk_level', label: 'Risk Level' },
     { key: 'status', label: 'Status' },
+    { key: 'actions', label: 'Actions' },
   ]
 
   const rows = useMemo(() => filteredStudents.map((student) => ({
@@ -137,6 +142,22 @@ export default function StudentTable({ initialStudents = [] }: StudentTableProps
         {student.status || 'unknown'}
       </span>
     ),
+    actions: (
+      <div className="flex gap-2">
+        {student.individual_risk_profile?.risk_level === 'critical' && (
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => {
+              setStudentToNotify(student)
+              setIsNotifyModalOpen(true)
+            }}
+          >
+            Notify Parent
+          </Button>
+        )}
+      </div>
+    ),
   })), [filteredStudents])
 
   const handleFiltersChange = (newFilters: StudentFiltersType) => {
@@ -148,17 +169,15 @@ export default function StudentTable({ initialStudents = [] }: StudentTableProps
   }
 
   const handleRowClick = (row: any, index: number) => {
-    // Find the original student data from filteredStudents
     const student = filteredStudents[index]
     if (student) {
-      setSelectedStudent(student)
-      setIsModalOpen(true)
+      router.push(`/dashboard/students/${student.student_id}`)
     }
   }
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedStudent(null)
+  const handleCloseNotifyModal = () => {
+    setIsNotifyModalOpen(false)
+    setStudentToNotify(null)
   }
 
   return (
@@ -200,10 +219,11 @@ export default function StudentTable({ initialStudents = [] }: StudentTableProps
         </div>
       </div>
 
-      <StudentRiskDetailsModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        student={selectedStudent}
+      
+      <NotifyModal
+        isOpen={isNotifyModalOpen}
+        onClose={handleCloseNotifyModal}
+        student={studentToNotify}
       />
     </div>
   )
