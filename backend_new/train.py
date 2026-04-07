@@ -82,7 +82,7 @@ def main():
         
     # Catch any exceptions that occur within the try block.
     except Exception as e:
-        # Log the specific exception message at the ERROR level to indicate a critical failure.
+        # Log any errors that occur during training
         logger.error(f"Training failed: {e}")
         
         # Exit the script with a status code of 1 to signal to the operating system that the execution failed.
